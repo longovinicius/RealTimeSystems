@@ -21,9 +21,9 @@ COPY l6.cpp /app
 
 
 # Add a script to compile and run a specific file
-COPY run.sh /app
-RUN chmod +x run.sh
-CMD ["/bin/bash"]
+# COPY run.sh /app
+# RUN chmod +x run.sh
+# CMD ["/bin/bash"]
 
 # docker run: This command is used to run a Docker container.
 # -v "$(pwd)":/app: This option mounts the current working directory ($(pwd)) to the /app directory inside the Docker container. This allows the container to access the files in the current directory.
