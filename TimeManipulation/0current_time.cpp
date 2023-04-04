@@ -13,7 +13,7 @@ int main() {
     // Imprime o tempo atual
     cout << "Tempo atual: " << ctime(&now_time_t);
 
-    cout << sizeof(now_time_t) << endl;
+    //cout << sizeof(now_time_t) << endl;
 
     return 0;
 }
