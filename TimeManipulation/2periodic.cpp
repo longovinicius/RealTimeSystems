@@ -1,26 +1,38 @@
-
- 
-
 #include <iostream>
 #include <chrono>
 #include <thread>
 
-using namespace std::chrono;
+using namespace std;
 
-void threadFunction() {
-    int period = 5; // período em segundos
-
-    while (true) {
-        auto now = system_clock::now(); // obtém o tempo atual
-        auto now_c = system_clock::to_time_t(now); // converte para o formato de tempo padrão
-        std::cout << "Thread executando às " << std::ctime(&now_c); // imprime a hora atual
-        std::this_thread::sleep_for(seconds(period)); // aguarda o período de 5 segundos
-    }
+auto hr_current_time() -> std::chrono::_V2::system_clock::time_point
+{
+    return chrono::high_resolution_clock::now();
 }
 
-int main() {
-    std::thread t(threadFunction); // cria uma nova thread para executar a função
-    t.join(); // aguarda a thread terminar
+auto current_time_t()
+{
+    auto now = chrono::system_clock::now();      // obtém o tempo atual
+    return chrono::system_clock::to_time_t(now); // converte para o formato de tempo padrão
+}
 
+void threadFunction(int8_t period)
+{
+    auto start = hr_current_time();
+    cout << "Thread executing" << endl;
+    auto end = hr_current_time();
+
+    auto duration = chrono::duration_cast<chrono::milliseconds>(end - start);
+    auto period_mili = chrono::milliseconds(period * 1000);
+    this_thread::sleep_for(period_mili - duration);
+}
+
+int main()
+{
+    time_t start_time_t = current_time_t(); // time_t convertion
+    cout << "Programa comecou às " << ctime(&start_time_t) << endl;
+    thread t(threadFunction, 5); // cria uma nova thread para executar a função
+    t.join();
+    time_t end_time_t = current_time_t();
+    cout << "Programa finalizou às " << ctime(&end_time_t) << endl;
     return 0;
 }
